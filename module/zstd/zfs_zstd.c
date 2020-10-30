@@ -704,6 +704,12 @@ zfs_zstd_cache_reap_now(void)
 	 * calling alloc with zero size seeks
 	 * and releases old unused objects
 	 */
+
+	/*
+	 * Short-circuit if there are no buffers to begin with.
+	 */
+	if (ZSTDSTAT_READ(zstd_stat_buffers) == 0)
+		return;
 	zstd_mempool_alloc(zstd_mempool_cctx, 0);
 	zstd_mempool_alloc(zstd_mempool_dctx, 0);
 }

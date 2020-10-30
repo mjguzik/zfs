@@ -80,6 +80,12 @@ typedef struct zfs_zstd_header {
 #define	ZSTDSTAT_SUB(stat, val) \
 	atomic_sub_64(&zstd_stats.stat.value.ui64, (val))
 #define	ZSTDSTAT_BUMP(stat)	ZSTDSTAT_ADD(stat, 1)
+/*
+ * Not exactly correct especially on 32-bit platforms (if any), but the
+ * value is only supposed to be advisory.
+ */
+#define	ZSTDSTAT_READ(stat)	\
+	(zstd_stats.stat.value.ui64)
 
 /* (de)init for user space / kernel emulation */
 int zstd_init(void);
